@@ -32,5 +32,20 @@ pipeline {
                     ])
                 }
            }
+           stage("Package") {
+                steps {
+                     sh "./gradlew build"
+                }
+           }
+           stage("Docker build") {
+                steps {
+                 sh "docker build -t Pteropticon/calculator ."
+              }
+          }
+          stage("Docker push") {
+             steps {
+                sh "docker push Pteropticon/calculator"
+                }
+          }
     }
 }
