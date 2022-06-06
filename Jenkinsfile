@@ -1,5 +1,8 @@
 pipeline {
     agent any
+        environment {
+            DOCKERHUB_CREDENTIALS = credentials('pteropticon-dockerhub')
+        }
         stages {
             stage("Compile") {
                 steps {
@@ -42,10 +45,20 @@ pipeline {
                  sh "docker build -t pteropticon/calculator ."
               }
           }
+    stage('Login') {
+      steps {
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+      }
+    }
           stage("Docker push") {
              steps {
                 sh "docker push pteropticon/calculator"
                 }
           }
     }
+      post {
+        always {
+          sh 'docker logout'
+        }
+}
 }
