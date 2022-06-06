@@ -39,12 +39,12 @@ pipeline {
            }
            stage("Docker build") {
                 steps {
-                 sh "docker build -t Pteropticon/calculator ."
+                 sh "docker build -t pteropticon/calculator ."
               }
           }
           stage("Docker push") {
              steps {
-                sh "docker push Pteropticon/calculator"
+                sh "docker push pteropticon/calculator"
                 }
           }
     }
